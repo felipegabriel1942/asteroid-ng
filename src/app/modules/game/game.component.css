@@ -1,0 +1,16 @@
+* {
+  position: absolute;
+}
+
+span {
+  color: #ffffff;
+  top: 10px;
+}
+
+#game-score {
+  left: 10px;
+}
+
+#game-lives {
+  right: 10px;
+}
