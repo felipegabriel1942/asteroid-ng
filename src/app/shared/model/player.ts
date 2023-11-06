@@ -1,36 +1,33 @@
-import { GameStatusEnum } from './../../core/enum/game-status.enum';
 import { State } from './state';
 import { GameObject } from './game-object';
 import { CanvasUtil } from '../util/canvas.util';
 import { Control } from './control';
 import { Projectile } from './projectile';
+import { Vector2D } from './vector-2d';
+
 import { Vector2DBuilder } from '../builder/vector-2d.builder';
 
+import { GameStatusEnum } from './../../core/enum/game-status.enum';
+
+import config from './../../../assets/data/config.json';
+
 export class Player extends GameObject {
-  private _intervalBetweenShoots: number = 0.4;
+  private _intervalBetweenShoots: number = config.player.intervalBetweenShoots;
+  private _lives = config.player.lives;
   private _hasShooted: boolean = false;
   private _timeSinceLastShoot: number = 0;
-  private _canvasWidth = 400;
-  private _canvasHeight = 600;
   private _control = Control.getInstance();
   private _state = State.getInstance();
-  private _lives = 3;
-
   private static instance: Player;
 
   private constructor() {
     super();
 
-    this._width = 40;
-    this._height = 40;
-
-    this._position = new Vector2DBuilder()
-      .x((this._canvasWidth - this._width) / 2)
-      .y(this._canvasHeight - this._height)
-      .build();
-
-    this._speed = new Vector2DBuilder().x(4).build();
-    this._img.src = './../../../assets/image/spaceship-01.png';
+    this._width = config.player.width;
+    this._height = config.player.height;
+    this._position = this.getInitialPosition();
+    this._speed = config.player.speed;
+    this._img.src = config.player.imageSrc;
   }
 
   public static getInstance(): Player {
@@ -41,6 +38,13 @@ export class Player extends GameObject {
     return Player.instance;
   }
 
+  private getInitialPosition(): Vector2D {
+    return new Vector2DBuilder()
+      .x((config.canvas.width - this._width) / 2)
+      .y(config.canvas.height - this._height)
+      .build();
+  }
+
   public move(): void {
     let newPosX = this._position.x;
     let newPosY = this._position.y;
@@ -48,8 +52,8 @@ export class Player extends GameObject {
     if (this._control.right) {
       newPosX += this._speed.x;
 
-      if (this._position.x + this._width > this._canvasWidth) {
-        newPosX = this._canvasWidth - this._width;
+      if (this._position.x + this._width > config.canvas.width) {
+        newPosX = config.canvas.width - this._width;
       }
     } else if (this._control.left) {
       newPosX -= this._speed.x;

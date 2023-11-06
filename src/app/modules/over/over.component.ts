@@ -1,7 +1,8 @@
-import { GameStatusEnum } from './../../core/enum/game-status.enum';
-import { State } from './../../shared/model/state';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { GameStatusEnum } from './../../core/enum/game-status.enum';
+import { State } from './../../shared/model/state';
 
 @Component({
   selector: 'app-over',

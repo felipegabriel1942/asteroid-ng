@@ -8,19 +8,21 @@ import { Vector2DBuilder } from '../builder/vector-2d.builder';
 import { CanvasUtil } from '../util/canvas.util';
 import { CollisionUtil } from '../util/collision.util';
 
+import config from './../../../assets/data/config.json';
+
 export class Asteroid extends GameObject {
-  private _hitPoints: number = 2;
+  private _hitPoints: number = config.asteroid.hitPoints;
   private _state: State = State.getInstance();
   private _player: Player = Player.getInstance();
 
   constructor(spawnPosition: Vector2D) {
     super();
 
-    this._width = 50;
-    this._height = 50;
+    this._width = config.asteroid.width;
+    this._height = config.asteroid.height;
     this._position = spawnPosition;
-    this._speed = new Vector2DBuilder().y(2).build();
-    this._img.src = './../../../assets/image/asteroid-01.png';
+    this._speed = config.asteroid.speed;
+    this._img.src = config.asteroid.imageSrc;
   }
 
   public move(): void {
@@ -32,7 +34,6 @@ export class Asteroid extends GameObject {
 
   public collide(): void {
     if (CollisionUtil.isColliding(this, this._player) && this._isAlive) {
-      console.log('colidiu');
       this._isAlive = false;
       this._player.setDamage();
     }
@@ -45,7 +46,7 @@ export class Asteroid extends GameObject {
   public shoot(): void {}
 
   public override get isAlive(): boolean {
-    return this.y < 600 && this._hitPoints > 0;
+    return this.y < config.canvas.height && this._hitPoints > 0;
   }
 
   public override set isAlive(value: boolean) {
@@ -56,7 +57,7 @@ export class Asteroid extends GameObject {
     this._hitPoints--;
 
     if (this._hitPoints <= 0) {
-      this._state.score += 100;
+      this._state.score += config.asteroid.points;
     }
   }
 }

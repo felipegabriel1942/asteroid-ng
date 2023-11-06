@@ -1,0 +1,37 @@
+{
+  "canvas": {
+    "width": 400,
+    "height": 600
+  },
+  "player": {
+    "width": 40,
+    "height": 40,
+    "lives": 3,
+    "speed": {
+      "x": 4,
+      "y": 0
+    },
+    "imageSrc": "./../../../assets/image/spaceship-01.png",
+    "intervalBetweenShoots": 0.4
+  },
+  "asteroid": {
+    "width": 50,
+    "height": 50,
+    "imageSrc": "./../../../assets/image/asteroid-01.png",
+    "hitPoints": 2,
+    "points": 100,
+    "speed": {
+      "x": 0,
+      "y": 2
+    }
+  },
+  "projectile": {
+    "width": 15,
+    "height": 15,
+    "imageSrc": "./../../../assets/image/projectile-01.png",
+    "speed": {
+      "x": 0,
+      "y": -5
+    }
+  }
+}

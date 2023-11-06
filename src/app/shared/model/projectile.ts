@@ -2,11 +2,14 @@ import { Asteroid } from './asteroid';
 import { GameObject } from './game-object';
 import { Player } from './player';
 import { State } from './state';
+import { Vector2D } from './vector-2d';
 
 import { Vector2DBuilder } from '../builder/vector-2d.builder';
 
 import { CanvasUtil } from '../util/canvas.util';
 import { CollisionUtil } from '../util/collision.util';
+
+import config from './../../../assets/data/config.json';
 
 export class Projectile extends GameObject {
   private _player = Player.getInstance();
@@ -15,14 +18,18 @@ export class Projectile extends GameObject {
   constructor() {
     super();
 
-    this._width = 15;
-    this._height = 15;
-    this._position = new Vector2DBuilder()
+    this._width = config.projectile.width;
+    this._height = config.projectile.height;
+    this._position = this.getInitialPosition();
+    this._speed = config.projectile.speed;
+    this._img.src = config.projectile.imageSrc;
+  }
+
+  private getInitialPosition(): Vector2D {
+    return new Vector2DBuilder()
       .x(this._player.x + (this._player.width / 2 - this._width / 2))
       .y(this._player.y)
       .build();
-    this._speed = new Vector2DBuilder().y(-5).build();
-    this._img.src = './../../../assets/image/projectile-01.png';
   }
 
   public move(): void {

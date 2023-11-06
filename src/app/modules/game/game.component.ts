@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { State } from './../../shared/model/state';
 import { Player } from './../../shared/model/player';
@@ -7,7 +8,6 @@ import { CanvasUtil } from './../../shared/util/canvas.util';
 
 import { GameObjectService } from './../../core/service/game-object.service';
 import { GameStatusEnum } from './../../core/enum/game-status.enum';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game',
