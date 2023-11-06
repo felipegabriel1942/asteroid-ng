@@ -7,6 +7,7 @@ import { CanvasUtil } from './../../shared/util/canvas.util';
 
 import { GameObjectService } from './../../core/service/game-object.service';
 import { GameStatusEnum } from './../../core/enum/game-status.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -18,7 +19,10 @@ export class GameComponent implements OnInit {
   private _player: Player = Player.getInstance();
   private _enemySpawner = new EnemySpawner();
 
-  constructor(private readonly gameObjectService: GameObjectService) {}
+  constructor(
+    private readonly gameObjectService: GameObjectService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit() {
     this._state.gameObjects = this.gameObjectService.getGameObjects();
@@ -27,26 +31,28 @@ export class GameComponent implements OnInit {
   }
 
   runGame(): void {
-    if (this._state.gameStatus != GameStatusEnum.RUNNING) {
-      return;
+    if (this._state.gameStatus == GameStatusEnum.OVER) {
+      this.router.navigateByUrl('/over');
     }
 
-    CanvasUtil.clearCanvas();
+    if (this._state.gameStatus == GameStatusEnum.RUNNING) {
+      CanvasUtil.clearCanvas();
 
-    this._enemySpawner.spawnEnemies();
+      this._enemySpawner.spawnEnemies();
 
-    this._state.gameObjects.forEach((obj) => {
-      obj.shoot();
-      obj.move();
-      obj.collide();
-      obj.draw();
-    });
+      this._state.gameObjects.forEach((obj) => {
+        obj.shoot();
+        obj.move();
+        obj.collide();
+        obj.draw();
+      });
 
-    this._state.gameObjects = this._state.gameObjects.filter(
-      (obj) => obj.isAlive
-    );
+      this._state.gameObjects = this._state.gameObjects.filter(
+        (obj) => obj.isAlive
+      );
 
-    requestAnimationFrame(() => this.runGame());
+      requestAnimationFrame(() => this.runGame());
+    }
   }
 
   public get score(): string {

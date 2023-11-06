@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/game/game.module').then((m) => m.GameModule),
   },
+  {
+    path: 'over',
+    loadChildren: () =>
+      import('./modules/over/over.module').then((m) => m.OverModule),
+  },
 ];
 
 @NgModule({
